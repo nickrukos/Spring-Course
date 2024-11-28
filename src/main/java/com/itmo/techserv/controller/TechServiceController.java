@@ -31,6 +31,8 @@ public class TechServiceController {
                                 @PastOrPresent @Future @RequestParam LocalDate finishDate){
         return 0L;
     }
+    //Получение списка услуг
+    //Получение услуги по идентификатору или значению любого поля
     @GetMapping
     public ServiceRequestDTO GetService(@Digits(integer = 1, fraction = Integer.MAX_VALUE) @RequestParam int id,
                                         @RequestParam (required = false) String type,
