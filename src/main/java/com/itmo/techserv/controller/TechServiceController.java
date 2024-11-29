@@ -23,18 +23,18 @@ public class TechServiceController {
     }
     //редактирование услуг(и), выбираемой по значению одного или нескольких полей
     @PutMapping
-    public Long EditTechService(@Digits(integer = 1, fraction = Integer.MAX_VALUE) @RequestParam int id,
-                                @RequestParam String type,
-                                @RequestParam String name,
-                                @RequestParam String description,
-                                @PastOrPresent @Future @RequestParam LocalDate beginDate,
-                                @PastOrPresent @Future @RequestParam LocalDate finishDate){
+    public Long EditTechService(@Digits(integer = 1, fraction = Integer.MAX_VALUE) @RequestParam (required = false) int id,
+                                @RequestParam (required = false) String type,
+                                @RequestParam (required = false) String name ,
+                                @RequestParam (required = false) String description,
+                                @PastOrPresent @Future @RequestParam (required = false) LocalDate beginDate,
+                                @PastOrPresent @Future @RequestParam (required = false) LocalDate finishDate){
         return 0L;
     }
     //Получение списка услуг
     //Получение услуги по идентификатору или значению любого поля
     @GetMapping
-    public ServiceRequestDTO GetService(@Digits(integer = 1, fraction = Integer.MAX_VALUE) @RequestParam int id,
+    public ServiceRequestDTO GetService(@Digits(integer = 1, fraction = Integer.MAX_VALUE)  @RequestParam int id,
                                         @RequestParam (required = false) String type,
                                         @RequestParam (required = false) String name,
                                         @RequestParam (required = false) String description,
