@@ -1,69 +1,27 @@
 package com.itmo.techserv.dto;
 
+import com.itmo.techserv.constants.TechServiceType;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+
 import java.time.LocalDate;
 
-public class ServiceRequestDTO {
-    private int id;              //идентификатор услуги
-    private int type;            //тип услуги
-    private String name;         //название услуги
-    private String description;  //описание услуги
-    private LocalDate beginDate; //дата начала оказания услуги
-    private LocalDate finishDate;//дата окончания оказания услуги
-
-    public ServiceRequestDTO(int id, int type, String name, String description, LocalDate beginDate, LocalDate finishDate) {
-        this.id = id;
-        this.type = type;
-        this.name = name;
-        this.description = description;
-        this.beginDate = beginDate;
-        this.finishDate = finishDate;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDate getBeginDate() {
-        return beginDate;
-    }
-
-    public void setBeginDate(LocalDate beginDate) {
-        this.beginDate = beginDate;
-    }
-
-    public LocalDate getFinishDate() {
-        return finishDate;
-    }
-
-    public void setFinishDate(LocalDate finishDate) {
-        this.finishDate = finishDate;
-    }
+public record ServiceRequestDTO (
+        @NotNull
+        @Digits(integer = 1, fraction = Integer.MAX_VALUE)
+        int id,              //идентификатор услуги
+        @NotNull
+        TechServiceType type,            //тип услуги
+        @NotNull
+        String name,         //название услуги
+        @NotNull
+        String description,  //описание услуги
+        @NotNull
+        @PastOrPresent
+        LocalDate beginDate, //дата начала оказания услуги
+        @NotNull
+        LocalDate finishDate //дата окончания оказания услуги
+){
 }
