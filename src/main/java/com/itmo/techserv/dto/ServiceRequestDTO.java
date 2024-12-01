@@ -17,11 +17,7 @@ public record ServiceRequestDTO (
         @NotNull
         String name,         //название услуги
         @NotNull
-        String description,  //описание услуги
-        @NotNull
-        @PastOrPresent
-        LocalDate beginDate, //дата начала оказания услуги
-        @NotNull
-        LocalDate finishDate //дата окончания оказания услуги
+        String description  //описание услуги (в рабочих днях)
+
 ){
 }

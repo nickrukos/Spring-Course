@@ -26,7 +26,7 @@ public class TechServiceAdminController {
         this.techAdminService = techAdminService;
     }
 
-    //Создание (регистрация) услуги
+    //Создание услуги
     @PostMapping
     public Long RegisterTechService(@Valid @RequestBody ServiceRequestDTO techServiceRequest0){
         return 0L;
@@ -37,8 +37,7 @@ public class TechServiceAdminController {
                                 @NotNull @RequestParam (required = false) TechServiceType type,
                                 @NotNull @RequestParam (required = false) String name,
                                 @NotNull @RequestParam (required = false) String description,
-                                @NotNull @PastOrPresent @RequestParam (required = false) LocalDate beginDate,
-                                @NotNull @RequestParam (required = false) LocalDate finishDate){
+                                @NotNull @RequestParam (required = false) int duration){
         return 0L;
     }
     //Получение всего перечня услуг
@@ -48,8 +47,7 @@ public class TechServiceAdminController {
                                                     @NotNull @RequestParam (required = false) TechServiceType type,
                                                     @NotNull @RequestParam (required = false) String name,
                                                     @NotNull @RequestParam (required = false) String description,
-                                                    @NotNull @PastOrPresent @RequestParam (required = false) LocalDate beginDate,
-                                                    @NotNull @RequestParam (required = false) LocalDate finishDate){
+                                                    @NotNull @RequestParam (required = false) int duration){
         return null;
     }
 }
