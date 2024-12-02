@@ -6,12 +6,16 @@ import com.itmo.techserv.dto.ServiceResponseDTO;
 import com.itmo.techserv.service.TechAdminService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,26 +32,29 @@ public class TechServiceAdminController {
 
     //Создание услуги
     @PostMapping
-    public Long RegisterTechService(@Valid @RequestBody ServiceRequestDTO techServiceRequestDTO){
-        return 0L;
+    public  ResponseEntity<?> RegisterService(@Valid @RequestBody ServiceRequestDTO serviceRequestDTO){
+        URI uri = URI.create("api/techservice"+ techAdminService.RegisterService(serviceRequestDTO));
+        return ResponseEntity.created(uri).build();
     }
     //редактирование услуг(и), выбираемой по значению одного или нескольких полей
     @PutMapping
-    public Long EditTechService(@NotNull @Digits(integer = 1, fraction = Integer.MAX_VALUE) @RequestParam (required = false) int id,
-                                @NotNull @RequestParam (required = false) TechServiceType type,
-                                @NotNull @RequestParam (required = false) String name,
-                                @NotNull @RequestParam (required = false) String description,
-                                @NotNull @RequestParam (required = false) int duration){
-        return 0L;
+    public ResponseEntity<?> EditService(@NotNull @Min(1) @RequestParam int id,
+                                         @NotNull @RequestParam TechServiceType type,
+                                         @NotNull @RequestParam String name,
+                                         @NotNull @RequestParam String description,
+                                         @NotNull @RequestParam int duration){
+        ServiceResponseDTO serviceResponseDTO = techAdminService.GetServicesById(id);
+        URI uri = URI.create("api/techservice" + techAdminService.EditService(type,name,description, duration, serviceResponseDTO));
+        return ResponseEntity.created(uri).build();
     }
     //Получение всего перечня услуг
-    //Получение услуги по идентификатору или значению любого поля
+    @GetMapping(produces = "application/json")
+    public  List<ServiceResponseDTO> GetAllServices(){
+        return techAdminService.GetAllServices();
+    }
+    //Получение услуги по идентификатору
     @GetMapping
-    public List<ServiceResponseDTO> GetListServices(@NotNull @Digits(integer = 1, fraction = Integer.MAX_VALUE) @RequestParam (required = false) int id,
-                                                    @NotNull @RequestParam (required = false) TechServiceType type,
-                                                    @NotNull @RequestParam (required = false) String name,
-                                                    @NotNull @RequestParam (required = false) String description,
-                                                    @NotNull @RequestParam (required = false) int duration){
-        return null;
+    public ResponseEntity<ServiceResponseDTO> GetServicesById(@NotNull @Min(1) @RequestParam int id){
+        return new ResponseEntity<>(techAdminService.GetServicesById(id), HttpStatus.OK);
     }
 }
