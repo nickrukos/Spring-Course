@@ -4,6 +4,7 @@ import com.itmo.techserv.constants.TechServiceType;
 import com.itmo.techserv.dto.ServiceRequestDTO;
 import com.itmo.techserv.dto.ServiceResponseDTO;
 import com.itmo.techserv.service.TechAdminService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
@@ -32,7 +33,8 @@ public class TechServiceAdminController {
 
     //Создание услуги
     @PostMapping
-    public  ResponseEntity<?> RegisterService(@Valid @RequestBody ServiceRequestDTO serviceRequestDTO){
+    public  ResponseEntity<?> RegisterService(@Valid @RequestBody ServiceRequestDTO serviceRequestDTO,
+                                              HttpServletRequest request){
         URI uri = URI.create("api/techservice"+ techAdminService.RegisterService(serviceRequestDTO));
         return ResponseEntity.created(uri).build();
     }
@@ -42,7 +44,8 @@ public class TechServiceAdminController {
                                          @NotNull @RequestParam TechServiceType type,
                                          @NotNull @RequestParam String name,
                                          @NotNull @RequestParam String description,
-                                         @NotNull @RequestParam int duration){
+                                         @NotNull @RequestParam int duration,
+                                         HttpServletRequest request){
         ServiceResponseDTO serviceResponseDTO = techAdminService.GetServicesById(id);
         URI uri = URI.create("api/techservice" + techAdminService.EditService(type,name,description, duration, serviceResponseDTO));
         return ResponseEntity.created(uri).build();
