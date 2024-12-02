@@ -28,7 +28,7 @@ public class TechServiceAdminController {
 
     //Создание услуги
     @PostMapping
-    public Long RegisterTechService(@Valid @RequestBody ServiceRequestDTO techServiceRequest0){
+    public Long RegisterTechService(@Valid @RequestBody ServiceRequestDTO techServiceRequestDTO){
         return 0L;
     }
     //редактирование услуг(и), выбираемой по значению одного или нескольких полей

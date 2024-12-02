@@ -15,8 +15,11 @@ public record BookingResponseDTO (
         @NotNull
         String userContactNumber,  //телефон пользователя
         ServiceRequestDTO service, //содержание услуги
+        @NotNull
         @PastOrPresent
-        LocalDate serviceDate      //дата обращения за услугой
+        LocalDate serviceDate,      //дата обращения за услугой
+        @NotNull
+        boolean cancelSign          //отметка об аннулировании брони
 ){
 
 }
