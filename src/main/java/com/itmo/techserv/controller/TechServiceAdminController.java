@@ -51,12 +51,12 @@ public class TechServiceAdminController {
         return ResponseEntity.created(uri).build();
     }
     //Получение всего перечня услуг
-    @GetMapping(produces = "application/json")
+    @GetMapping(path = "/list",  produces = "application/json")
     public  List<ServiceResponseDTO> GetAllServices(){
         return techAdminService.GetAllServices();
     }
     //Получение услуги по идентификатору
-    @GetMapping
+    @GetMapping(path="/{id}", produces = "application/json")
     public ResponseEntity<ServiceResponseDTO> GetServicesById(@NotNull @Min(1) @RequestParam int id){
         return new ResponseEntity<>(techAdminService.GetServicesById(id), HttpStatus.OK);
     }
