@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +22,13 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
+@RequiredArgsConstructor
+@Slf4j
 @Validated
 @RequestMapping("api/techservice")
 @RestController
 public class TechServiceAdminController {
     private final TechAdminService techAdminService;
-
-    @Autowired
-    public TechServiceAdminController(TechAdminService techAdminService) {
-        this.techAdminService = techAdminService;
-    }
 
     //Создание услуги
     @PostMapping

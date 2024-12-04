@@ -3,6 +3,7 @@ package com.itmo.techserv.controller;
 import com.itmo.techserv.dto.BookingRequestDTO;
 import com.itmo.techserv.dto.BookingResponseDTO;
 import com.itmo.techserv.dto.ServiceRequestDTO;
+import com.itmo.techserv.dto.ServiceResponseDTO;
 import com.itmo.techserv.service.BookingService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -10,6 +11,8 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,16 +24,14 @@ import java.net.URI;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-
+@RequiredArgsConstructor
+@Slf4j
 @Validated
 @RequestMapping("api/booking")
 @RestController
 public class BookingController {
     private final BookingService bookingService;
-    @Autowired
-    public BookingController(BookingService bookingService){
-        this.bookingService = bookingService;
-    }
+
     //бронирование услуги (регистрация брони)
     @PostMapping
     public ResponseEntity<?> RegisterBooking(@Valid @RequestBody BookingRequestDTO booking,
@@ -61,14 +62,9 @@ public class BookingController {
         return bookingService.GetBookingsByLogin(principal.getName());
     }
     //получение списка предоставленных услуг
-    @GetMapping
-    public List<BookingResponseDTO> GetListBooking(
-            @NotNull @RequestParam String userLogin,
-            @NotNull @Min(1) @RequestParam (required = false) Long number,
-            @NotNull @RequestParam (required = false) String userContactNumber,
-            @NotNull @PastOrPresent @RequestParam (required = false) LocalDate serviceDate,
-            @NotNull @PastOrPresent @RequestParam (required = false) boolean cancelSign
-    ){
-        return null;
+    @GetMapping(path = "/services-list", produces = "application/json")
+    public List<ServiceResponseDTO> GetListServices(Principal principal){
+        return bookingService.GetServicesByLogin(principal.getName());
     }
+
 }
