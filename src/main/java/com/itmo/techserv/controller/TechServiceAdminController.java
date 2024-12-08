@@ -39,7 +39,7 @@ public class TechServiceAdminController {
     }
     //редактирование услуг(и), выбираемой по значению одного или нескольких полей
     @PutMapping
-    public ResponseEntity<?> EditService(@NotNull @Min(1) @RequestParam int id,
+    public ResponseEntity<?> EditService(@NotNull @Min(1) @RequestParam long id,
                                          @NotNull @RequestParam TechServiceType type,
                                          @NotNull @RequestParam String name,
                                          @NotNull @RequestParam String description,
@@ -56,7 +56,7 @@ public class TechServiceAdminController {
     }
     //Получение услуги по идентификатору
     @GetMapping(path="/{id}", produces = "application/json")
-    public ResponseEntity<ServiceResponseDTO> GetServicesById(@NotNull @Min(1) @RequestParam int id){
+    public ResponseEntity<ServiceResponseDTO> GetServicesById(@NotNull @Min(1) @RequestParam long id){
         return new ResponseEntity<>(techAdminService.GetServicesById(id), HttpStatus.OK);
     }
 }

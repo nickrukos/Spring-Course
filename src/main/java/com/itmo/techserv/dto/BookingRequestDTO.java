@@ -9,9 +9,9 @@ public record BookingRequestDTO (
         @Min(1)
         Long number,               //номер услуги
         @NotNull
-        String userLogin,          //логин пользователя
+        String clientLogin,          //логин пользователя
         @NotNull
-        String userContactNumber,  //телефон пользователя
+        String clientPhone,  //телефон пользователя
         @NotNull
         ServiceRequestDTO service, //содержание услуги
         @NotNull

@@ -13,7 +13,7 @@ public class TechAdminService {
     public List<ServiceResponseDTO> GetAllServices(){
         return null;
     }
-    public ServiceResponseDTO GetServicesById(int id){
+    public ServiceResponseDTO GetServicesById(long id){
         return null;
     }
     public long EditService(

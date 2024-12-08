@@ -12,7 +12,7 @@ public record ServiceResponseDTO (
         @NotNull
         @Positive
         @Digits(integer = 1, fraction = Integer.MAX_VALUE)
-        int id,              //идентификатор услуги
+        long id,              //идентификатор услуги
         @NotNull
         TechServiceType type,            //тип услуги
         @NotNull

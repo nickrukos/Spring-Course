@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public record ServiceRequestDTO (
         @NotNull
         @Digits(integer = 1, fraction = Integer.MAX_VALUE)
-        int id,              //идентификатор услуги
+        long id,              //идентификатор услуги
         @NotNull
         TechServiceType type,            //тип услуги
         @NotNull

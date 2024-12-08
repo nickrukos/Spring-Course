@@ -11,9 +11,9 @@ public record BookingResponseDTO (
         @Min(1)
         Long number,               //номер услуги
         @NotNull
-        String userLogin,          //логин пользователя
+        String clientLogin,          //логин пользователя
         @NotNull
-        String userContactNumber,  //телефон пользователя
+        String clientPhone,  //телефон пользователя
         ServiceRequestDTO service, //содержание услуги
         @NotNull
         @PastOrPresent
