@@ -16,16 +16,16 @@ import java.util.List;
 public class TechService {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id",nullable = false)
     private long id;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "type")
     private TechServiceType type;
-    @Column(name = "name")
+    @Column(name = "name",nullable = false)
     private String name;
-    @Column(name = "description")
+    @Column(name = "description",nullable = false)
     private String description;
-    @Column (name = "duration")
+    @Column (name = "duration",nullable = false)
     private int duration;
     @OneToMany(mappedBy = "service")
     private List<Booking> BookingsOfService = new ArrayList<>();

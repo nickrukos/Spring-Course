@@ -6,5 +6,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ServiceRepository  extends JpaRepository<TechService,Long> {
+    //создание услуги
+    TechService save(TechService service);
+
+    //редактирование услуги
 
 }
