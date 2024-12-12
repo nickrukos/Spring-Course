@@ -29,7 +29,7 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     Booking UpdateBookingDate(LocalDate date, long id);
 
     //редактирование брони (изменение времени записи)
-    Booking updateById(long id);
+    Booking updateByBookingDateEquals(LocalDate date, long id);
 
     //отмена брони
     @Query(nativeQuery = true, value = "UPDATE booking SET cancel_sign = true"
