@@ -37,5 +37,5 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     Booking UpdateBookingCancelSign(long id);
 
     //отмена брони
-    //Booking upd
+    Booking updateByCancelSignIsTrue(long id);
 }
