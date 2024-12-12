@@ -2,7 +2,9 @@ package com.itmo.techserv.repository;
 
 import com.itmo.techserv.entity.Booking;
 import com.itmo.techserv.entity.TechService;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -21,21 +23,30 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     List<TechService> findServiceByLogin(String login);
 
     //создание брони на услугу сервиса
+    @Transactional
     Booking save(Booking booking);
 
     //редактирование брони (изменение времени записи)
+    @Transactional
+    @Modifying
     @Query(nativeQuery = true, value = "UPDATE booking SET booking_date = :date"
                                         + "WHERE id = :id")
     Booking UpdateBookingDate(LocalDate date, long id);
 
     //редактирование брони (изменение времени записи)
-    Booking updateByBookingDateEquals(LocalDate date, long id);
+    @Transactional
+    @Modifying
+    Booking updateByBookingDate(LocalDate date, long id);
 
     //отмена брони
+    @Transactional
+    @Modifying
     @Query(nativeQuery = true, value = "UPDATE booking SET cancel_sign = true"
                                         + "WHERE id = :id")
     Booking UpdateBookingCancelSign(long id);
 
     //отмена брони
+    @Transactional
+    @Modifying
     Booking updateByCancelSignIsTrue(long id);
 }
