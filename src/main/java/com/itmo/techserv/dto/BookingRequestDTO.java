@@ -7,16 +7,16 @@ import java.time.LocalDate;
 public record BookingRequestDTO (
         @NotNull
         @Min(1)
-        Long number,               //номер услуги
+        Long id,               //идентификатор услуги
         @NotNull
-        String clientLogin,          //логин пользователя
+        String login,          //логин пользователя
         @NotNull
         String clientPhone,  //телефон пользователя
         @NotNull
-        ServiceRequestDTO service, //содержание услуги
+        ServiceRequestDTO service,     //идентификатор услуги
         @NotNull
         @PastOrPresent
-        LocalDate serviceDate,      //дата обращения за услугой
+        LocalDate bookingDate,      //дата обращения за услугой
         @NotNull
         boolean cancelSign          //отметка об аннулировании брони
 ){

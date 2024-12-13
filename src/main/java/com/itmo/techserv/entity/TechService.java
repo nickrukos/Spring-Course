@@ -2,13 +2,14 @@ package com.itmo.techserv.entity;
 
 import com.itmo.techserv.constants.TechServiceType;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
@@ -17,7 +18,7 @@ public class TechService {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id",nullable = false)
-    private long id;
+    private Long id;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "type")
     private TechServiceType type;

@@ -34,9 +34,11 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     Booking UpdateBookingDate(LocalDate date, long id);
 
     //редактирование брони (изменение времени записи)
-    @Transactional
-    @Modifying
-    Booking updateByBookingDate(LocalDate date, long id);
+
+
+//    @Transactional
+//    @Modifying
+//    Booking updateByBookingDate(LocalDate date, long id);
 
     //отмена брони
     @Transactional
@@ -45,8 +47,9 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
                                         + "WHERE id = :id")
     Booking UpdateBookingCancelSign(long id);
 
-    //отмена брони
-    @Transactional
-    @Modifying
-    Booking updateByCancelSignIsTrue(long id);
+
+//    //отмена брони
+//    @Transactional
+//    @Modifying
+//    Booking updateByCancelSignIsTrue(long id);
 }

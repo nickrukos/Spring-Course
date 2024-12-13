@@ -17,7 +17,10 @@ public record ServiceRequestDTO (
         @NotNull
         String name,         //название услуги
         @NotNull
-        String description  //описание услуги (в рабочих днях)
+        String description,  //описание услуги
+        @NotNull
+        @Digits(integer = 1, fraction = Integer.MAX_VALUE)
+        int duration // длительность услуги (в рабочих днях)
 
 ){
 }

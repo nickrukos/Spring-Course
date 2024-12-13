@@ -18,10 +18,10 @@ public interface ServiceRepository  extends JpaRepository<TechService,Long> {
     TechService save(TechService service);
 
     //редактирование услуги по всем полям
-    @Transactional
-    @Modifying
-    TechService updateAllById(long id, TechServiceType type, String name,
-                              String description, int duration);
+//    @Transactional
+//    @Modifying
+//    TechService updateAllById(long id, TechServiceType type, String name,
+//                              String description, int duration);
 
     @Transactional
     @Modifying
@@ -32,6 +32,10 @@ public interface ServiceRepository  extends JpaRepository<TechService,Long> {
                                 String description, int duration);
 
     //получение всего списка услуг
+    @Transactional
+    @Query(nativeQuery = true, value = "SELECT * FROM techservice")
+    List<TechService> SelectAll();
+
     @Transactional
     List<TechService>  findAll();
 

@@ -9,12 +9,12 @@ import java.time.LocalDate;
 public record BookingResponseDTO (
         @NotNull
         @Min(1)
-        Long number,               //номер услуги
+        Long id,               //идентификатор услуги
         @NotNull
-        String clientLogin,          //логин пользователя
+        String login,          //логин пользователя
         @NotNull
         String clientPhone,  //телефон пользователя
-        ServiceRequestDTO service, //содержание услуги
+        com.itmo.techserv.entity.TechService service, //содержание услуги
         @NotNull
         @PastOrPresent
         LocalDate serviceDate,      //дата обращения за услугой
