@@ -3,6 +3,9 @@ package com.itmo.techserv.service;
 import com.itmo.techserv.constants.TechServiceType;
 import com.itmo.techserv.dto.ServiceRequestDTO;
 import com.itmo.techserv.dto.ServiceResponseDTO;
+import com.itmo.techserv.entity.TechService;
+import com.itmo.techserv.mapper.TechServiceMapper;
+import com.itmo.techserv.repository.ServiceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,11 +15,16 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class TechAdminService {
+    private final ServiceRepository serviceRepository;
+    private final TechServiceMapper techServiceMapper;
+
     public List<ServiceResponseDTO> GetAllServices(){
-        return null;
+        List<TechService> techServices = serviceRepository.findAll();
+        return techServices.stream().map(techServiceMapper::mapToDTO).toList();
     }
     public ServiceResponseDTO GetServicesById(long id){
-        return null;
+        TechService techService = serviceRepository.findById(id).get();
+        return techServiceMapper.mapToDTO(techService);
     }
     public long EditService(
             TechServiceType type,
@@ -27,6 +35,8 @@ public class TechAdminService {
         return 0L;
     }
     public long RegisterService(ServiceRequestDTO serviceRequestDTO){
-        return 0L;
+        TechService techService = techServiceMapper.mapToEntity(serviceRequestDTO);
+        serviceRepository.save(techService);
+        return techService.getId();
     }
 }

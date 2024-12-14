@@ -34,7 +34,7 @@ public class TechServiceAdminController {
     @PostMapping
     public  ResponseEntity<?> RegisterService(@Valid @RequestBody ServiceRequestDTO serviceRequestDTO,
                                               HttpServletRequest request){
-        URI uri = URI.create("api/techservice"+ techAdminService.RegisterService(serviceRequestDTO));
+        URI uri = URI.create("api/techservices?id="+ techAdminService.RegisterService(serviceRequestDTO));
         return ResponseEntity.created(uri).build();
     }
     //редактирование услуг(и), выбираемой по значению одного или нескольких полей

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ServiceRepository  extends JpaRepository<TechService,Long> {
@@ -41,5 +42,5 @@ public interface ServiceRepository  extends JpaRepository<TechService,Long> {
 
     //получение услуги по идентификатору
     @Transactional
-    TechService findById(long id);
+    Optional<TechService> findById(long id);
 }

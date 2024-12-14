@@ -14,11 +14,13 @@ import java.util.List;
 public interface BookingRepository extends JpaRepository<Booking,Long> {
     //получение списка броней
     List<Booking> findAllByLogin(String login);
+
     //получение списка представленных услуг
     @Query(nativeQuery = true, value = "SELECT techservice.* FROM booking INNER JOIN techservice"
-                                       + "ON techservice.id = booking.category_id "
-                                       + "WHERE booking.login = :login")
+            + "ON techservice.id = booking.category_id "
+            + "WHERE booking.login = :login")
     List<TechService> findServices(String login);
+
     //получение списка представленных услуг
     List<TechService> findServiceByLogin(String login);
 
@@ -30,7 +32,7 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE booking SET booking_date = :date"
-                                        + "WHERE id = :id")
+            + "WHERE id = :id")
     Booking UpdateBookingDate(LocalDate date, long id);
 
     //редактирование брони (изменение времени записи)
@@ -44,12 +46,13 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE booking SET cancel_sign = true"
-                                        + "WHERE id = :id")
+            + "WHERE id = :id")
     Booking UpdateBookingCancelSign(long id);
 
 
-//    //отмена брони
+    //отмена брони
 //    @Transactional
 //    @Modifying
-//    Booking updateByCancelSignIsTrue(long id);
+//    //Booking updateByIdAndCancelSignIsTrue(long id);
+//    Booking  updateBookingById(Long id);
 }
