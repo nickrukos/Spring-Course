@@ -14,7 +14,7 @@ public record BookingResponseDTO (
         String login,          //логин пользователя
         @NotNull
         String clientPhone,  //телефон пользователя
-        com.itmo.techserv.entity.TechService service, //содержание услуги
+        String nameServ,     //название услуги
         @NotNull
         @PastOrPresent
         LocalDate serviceDate,      //дата обращения за услугой

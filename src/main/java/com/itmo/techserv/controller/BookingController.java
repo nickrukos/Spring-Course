@@ -50,10 +50,8 @@ public class BookingController {
     //редактирование брони (изменение времени записи)
     @PutMapping(path = "/edit", produces = "application/json")
     public ResponseEntity<?> EditBooking(@NotNull @Min(1) @RequestParam Long id,
-                                         @NotNull @Future LocalDate date,
-                                         Principal principal){
-        URI uri = URI.create("api/booking/edit/" + bookingService.EditBooking(id,date,
-                             principal.getName()));
+                                         @NotNull @Future LocalDate date){
+        URI uri = URI.create("api/booking/edit?id=" + bookingService.EditBooking(id,date));
         return ResponseEntity.created(uri).build();
     }
     //получение списка броней

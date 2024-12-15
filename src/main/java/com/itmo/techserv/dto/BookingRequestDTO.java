@@ -13,7 +13,7 @@ public record BookingRequestDTO (
         @NotNull
         String clientPhone,  //телефон пользователя
         @NotNull
-        ServiceRequestDTO service,     //идентификатор услуги
+        String nameServ,     //название услуги
         @NotNull
         @PastOrPresent
         LocalDate bookingDate,      //дата обращения за услугой

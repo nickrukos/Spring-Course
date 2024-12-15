@@ -37,7 +37,7 @@ public class TechServiceAdminController {
         URI uri = URI.create("api/techservices?id="+ techAdminService.RegisterService(serviceRequestDTO));
         return ResponseEntity.created(uri).build();
     }
-    //редактирование услуг(и), выбираемой по значению одного или нескольких полей
+    //редактирование услуг(и), выбираемой по значению поля id
     @PutMapping
     public ResponseEntity<?> EditService(@NotNull @Min(1) @RequestParam long id,
                                          @NotNull @RequestParam TechServiceType type,
@@ -45,8 +45,8 @@ public class TechServiceAdminController {
                                          @NotNull @RequestParam String description,
                                          @NotNull @RequestParam int duration,
                                          HttpServletRequest request){
-        ServiceResponseDTO serviceResponseDTO = techAdminService.GetServicesById(id);
-        URI uri = URI.create("api/techservice" + techAdminService.EditService(type,name,description, duration, serviceResponseDTO));
+
+        URI uri = URI.create("api/techservice?id=" + techAdminService.EditService(id,type,name,description, duration));
         return ResponseEntity.created(uri).build();
     }
     //Получение всего перечня услуг

@@ -29,8 +29,8 @@ public interface ServiceRepository  extends JpaRepository<TechService,Long> {
     @Query(nativeQuery = true, value = "UPDATE techservice SET type = :type, name = :name," +
                                         "description = :description, duration = :duration" +
                                         "WHERE id = :id")
-    TechService UpdateAllFields(long id, TechServiceType type, String name,
-                                String description, int duration);
+    Optional<TechService> UpdateAllFields(long id, TechServiceType type, String name,
+                                          String description, int duration);
 
     //получение всего списка услуг
     @Transactional
@@ -43,4 +43,7 @@ public interface ServiceRepository  extends JpaRepository<TechService,Long> {
     //получение услуги по идентификатору
     @Transactional
     Optional<TechService> findById(long id);
+
+    //получение типа услуги по названию услуги
+    Optional<TechService> findByName(String name);
 }
