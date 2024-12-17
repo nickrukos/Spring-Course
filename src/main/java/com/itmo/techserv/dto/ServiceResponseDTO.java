@@ -20,6 +20,8 @@ public record ServiceResponseDTO (
         @NotNull
         String description,  //описание услуги
         @NotNull
+        long value,         //стоимость услуги
+        @NotNull
         @Digits(integer = 1, fraction = Integer.MAX_VALUE)
         int duration         //длительность услуги (в рабочих днях)
 ){

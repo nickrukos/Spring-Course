@@ -26,11 +26,11 @@ public interface ServiceRepository  extends JpaRepository<TechService,Long> {
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "UPDATE techservice SET type = :type, name = :name," +
-                                        "description = :description, duration = :duration" +
-                                        "WHERE id = :id")
+    @Query(nativeQuery = true, value = "UPDATE techservice SET type = :type, name = :name, " +
+                                        "description = :description, value = :value, " +
+                                        "duration = :duration WHERE id = :id")
     Optional<TechService> UpdateAllFields(long id, TechServiceType type, String name,
-                                          String description, int duration);
+                                          String description, long value, int duration);
 
     //получение всего списка услуг
     @Transactional

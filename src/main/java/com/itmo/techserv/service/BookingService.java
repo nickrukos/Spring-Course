@@ -3,6 +3,7 @@ package com.itmo.techserv.service;
 import com.itmo.techserv.dto.BookingRequestDTO;
 import com.itmo.techserv.dto.BookingResponseDTO;
 import com.itmo.techserv.dto.ServiceResponseDTO;
+import com.itmo.techserv.dto.ValueResponseDTO;
 import com.itmo.techserv.entity.Booking;
 import com.itmo.techserv.entity.TechService;
 import com.itmo.techserv.mapper.BookingMapper;
@@ -10,11 +11,14 @@ import com.itmo.techserv.mapper.TechServiceMapper;
 import com.itmo.techserv.repository.BookingRepository;
 import com.itmo.techserv.repository.ServiceRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.ListQueryByExampleExecutor;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Slf4j
 @Service
@@ -45,5 +49,8 @@ public class BookingService {
     public List<ServiceResponseDTO> GetServicesByLogin(String login){
 
         return bookingRepository.findServiceByLogin(login).stream().map(techServiceMapper::mapToDTO).toList();
+    }
+    public List<ValueResponseDTO> GetValuesByDate(LocalDate beginDate, LocalDate endDate){
+        return bookingRepository.SelectValue(beginDate,endDate);
     }
 }

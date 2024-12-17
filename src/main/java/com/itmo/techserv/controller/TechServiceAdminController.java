@@ -43,10 +43,11 @@ public class TechServiceAdminController {
                                          @NotNull @RequestParam TechServiceType type,
                                          @NotNull @RequestParam String name,
                                          @NotNull @RequestParam String description,
+                                         @NotNull @RequestParam long value,
                                          @NotNull @RequestParam int duration,
                                          HttpServletRequest request){
 
-        URI uri = URI.create("api/techservice?id=" + techAdminService.EditService(id,type,name,description, duration));
+        URI uri = URI.create("api/techservice?id=" + techAdminService.EditService(id,type,name,description, value, duration));
         return ResponseEntity.created(uri).build();
     }
     //Получение всего перечня услуг
@@ -59,4 +60,5 @@ public class TechServiceAdminController {
     public ResponseEntity<ServiceResponseDTO> GetServicesById(@NotNull @Min(1) @RequestParam long id){
         return new ResponseEntity<>(techAdminService.GetServicesById(id), HttpStatus.OK);
     }
+
 }

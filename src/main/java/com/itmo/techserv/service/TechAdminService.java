@@ -26,8 +26,8 @@ public class TechAdminService {
         TechService techService = serviceRepository.findById(id).get();
         return techServiceMapper.mapToDTO(techService);
     }
-    public long EditService(long id, TechServiceType type, String name, String description,int duration){
-        TechService techService = serviceRepository.UpdateAllFields(id,type,name,description,duration).get();
+    public long EditService(long id, TechServiceType type, String name, String description, long value, int duration){
+        TechService techService = serviceRepository.UpdateAllFields(id,type,name,description,value,duration).get();
         return id;
     }
     public long RegisterService(ServiceRequestDTO serviceRequestDTO){

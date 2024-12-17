@@ -14,6 +14,7 @@ public class TechServiceMapper {
                 .name(serviceRequestDTO.name())
                 .description(serviceRequestDTO.description())
                 .duration(serviceRequestDTO.duration())
+                .value(serviceRequestDTO.value())
                 .build();
     }
     public ServiceResponseDTO mapToDTO(TechService techService){
@@ -22,6 +23,7 @@ public class TechServiceMapper {
                 techService.getType(),
                 techService.getName(),
                 techService.getDescription(),
+                techService.getValue(),
                 techService.getDuration()
         );
     }
