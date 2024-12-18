@@ -19,9 +19,9 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     List<Booking> findAllByLogin(String login);
 
     //получение списка представленных услуг
-    @Query(nativeQuery = true, value = "SELECT techservice.* FROM booking INNER JOIN techservice"
-            + "ON techservice.id = booking.category_id "
-            + "WHERE booking.login = :login")
+    @Query(nativeQuery = true, value = "SELECT techservice.* FROM booking INNER JOIN techservice " +
+                                       "ON techservice.id = booking.category_id "  +
+                                       "WHERE booking.login = :login")
     List<TechService> findServices(String login);
 
     //получение списка представленных услуг
@@ -34,8 +34,8 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     //редактирование брони (изменение времени записи)
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "UPDATE booking SET booking_date = :date"
-            + "WHERE id = :id")
+    @Query(nativeQuery = true, value = "UPDATE booking SET booking_date = :date "
+                                        + "WHERE id = :id")
     Booking UpdateBookingDate(LocalDate date, long id);
 
     //редактирование брони (изменение времени записи)
@@ -48,8 +48,8 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     //отмена брони
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "UPDATE booking SET cancel_sign = true"
-            + "WHERE id = :id")
+    @Query(nativeQuery = true, value = "UPDATE booking SET cancel_sign = true "
+                                        + "WHERE id = :id")
     Booking UpdateBookingCancelSign(long id);
 
 
@@ -60,10 +60,12 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
 //    Booking  updateBookingById(Long id);
 
     //получение информации о выручке
-    @Query(nativeQuery = true, value =  "SELECT booking.booking_date, techservice.value " +
+    @Query(nativeQuery = true, value =  "SELECT booking.booking_date, COUNT(techservice.value) " +
                                         "FROM booking INNER JOIN techservice " +
                                         "ON techservice.id = booking.category_id " +
                                         "WHERE booking.booking_date BETWEEN :beginDate AND :endDate " +
-                                        "AND booking.cansel_sign IS NOT true")
+                                        "AND booking.cansel_sign IS NOT true" +
+                                        "GROUP BY booking.booking_date " +
+                                        "ORDER BY booking.booking_date")
     List<ValueResponseDTO> SelectValue(LocalDate beginDate, LocalDate endDate);
 }

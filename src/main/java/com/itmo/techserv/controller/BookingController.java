@@ -1,9 +1,6 @@
 package com.itmo.techserv.controller;
 
-import com.itmo.techserv.dto.BookingRequestDTO;
-import com.itmo.techserv.dto.BookingResponseDTO;
-import com.itmo.techserv.dto.ServiceRequestDTO;
-import com.itmo.techserv.dto.ServiceResponseDTO;
+import com.itmo.techserv.dto.*;
 import com.itmo.techserv.service.BookingService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -50,7 +47,7 @@ public class BookingController {
     //редактирование брони (изменение времени записи)
     @PutMapping(path = "/edit", produces = "application/json")
     public ResponseEntity<?> EditBooking(@NotNull @Min(1) @RequestParam Long id,
-                                         @NotNull @Future LocalDate date){
+                                         @NotNull @Future @RequestParam  LocalDate date){
         URI uri = URI.create("api/booking/edit?id=" + bookingService.EditBooking(id,date));
         return ResponseEntity.created(uri).build();
     }
@@ -64,5 +61,10 @@ public class BookingController {
     public List<ServiceResponseDTO> GetListServices(Principal principal){
         return bookingService.GetServicesByLogin(principal.getName());
     }
-
+    //получение сведений о выручке за временной период
+    @GetMapping(path = "/value",produces = "application/json")
+    public List<ValueResponseDTO> GetValue(@NotNull @PastOrPresent @RequestParam LocalDate beginDate,
+                                           @NotNull @PastOrPresent @RequestParam LocalDate endDate){
+        return bookingService.GetValueByDate(beginDate,endDate);
+    }
 }

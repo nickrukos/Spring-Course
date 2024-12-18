@@ -50,7 +50,7 @@ public class BookingService {
 
         return bookingRepository.findServiceByLogin(login).stream().map(techServiceMapper::mapToDTO).toList();
     }
-    public List<ValueResponseDTO> GetValuesByDate(LocalDate beginDate, LocalDate endDate){
+    public List<ValueResponseDTO> GetValueByDate(LocalDate beginDate, LocalDate endDate){
         return bookingRepository.SelectValue(beginDate,endDate);
     }
 }
