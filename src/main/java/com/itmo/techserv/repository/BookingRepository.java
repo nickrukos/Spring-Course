@@ -29,6 +29,7 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
 
     //создание брони на услугу сервиса
     @Transactional
+
     Booking save(Booking booking);
 
     //редактирование брони (изменение времени записи)

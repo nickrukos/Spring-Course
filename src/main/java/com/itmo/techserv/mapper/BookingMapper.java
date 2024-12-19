@@ -24,7 +24,6 @@ public class BookingMapper {
                 .id(bookingRequestDTO.id())
                 .login(bookingRequestDTO.login())
                 .clientPhone(bookingRequestDTO.clientPhone())
-                .service(serviceRepository.findById(bookingRequestDTO.id()).get())
                 .bookingDate(bookingRequestDTO.bookingDate())
                 .cancelSign(bookingRequestDTO.cancelSign())
                 .build();

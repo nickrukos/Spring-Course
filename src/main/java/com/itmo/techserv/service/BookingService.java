@@ -6,12 +6,14 @@ import com.itmo.techserv.dto.ServiceResponseDTO;
 import com.itmo.techserv.dto.ValueResponseDTO;
 import com.itmo.techserv.entity.Booking;
 import com.itmo.techserv.entity.TechService;
+import com.itmo.techserv.exceptions.ServiceException;
 import com.itmo.techserv.mapper.BookingMapper;
 import com.itmo.techserv.mapper.TechServiceMapper;
 import com.itmo.techserv.repository.BookingRepository;
 import com.itmo.techserv.repository.ServiceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.ListQueryByExampleExecutor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +31,10 @@ public class BookingService {
     private final TechServiceMapper techServiceMapper;
 
     public long RegisterBooking(BookingRequestDTO bookingRequest){
+        TechService techService = serviceRepository.findByName(bookingRequest.nameServ())
+                                  .orElseThrow(()->new ServiceException(HttpStatus.BAD_REQUEST, "Указанная категория не существует"));
         Booking booking = bookingMapper.mapToEntity(bookingRequest);
+        booking.setService(techService);
         bookingRepository.save(booking);
         return booking.getId();
     }
