@@ -31,14 +31,14 @@ public class TechServiceAdminController {
     private final TechAdminService techAdminService;
 
     //Создание услуги
-    @PostMapping
+    @PostMapping(path = "/register")
     public  ResponseEntity<?> RegisterService(@Valid @RequestBody ServiceRequestDTO serviceRequestDTO,
                                               HttpServletRequest request){
         URI uri = URI.create("api/techservices?id="+ techAdminService.RegisterService(serviceRequestDTO));
         return ResponseEntity.created(uri).build();
     }
     //редактирование услуг(и), выбираемой по значению поля id
-    @PutMapping
+    @PutMapping(path = "/{id};{type};{name};{description};{value};{duration}")
     public ResponseEntity<?> EditService(@NotNull @Min(1) @RequestParam long id,
                                          @NotNull @RequestParam TechServiceType type,
                                          @NotNull @RequestParam String name,
@@ -60,5 +60,4 @@ public class TechServiceAdminController {
     public ResponseEntity<ServiceResponseDTO> GetServicesById(@NotNull @Min(1) @RequestParam long id){
         return new ResponseEntity<>(techAdminService.GetServicesById(id), HttpStatus.OK);
     }
-
 }

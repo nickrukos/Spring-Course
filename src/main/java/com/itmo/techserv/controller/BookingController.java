@@ -30,25 +30,25 @@ public class BookingController {
     private final BookingService bookingService;
 
     //бронирование услуги (регистрация брони)
-    @PostMapping
+    @PostMapping(path = "/register", produces = "application/json")
     public ResponseEntity<?> RegisterBooking(@Valid @RequestBody BookingRequestDTO booking,
                                              HttpServletRequest request){
 
-        URI uri = URI.create("api/booking"+ bookingService.RegisterBooking(booking));
+        URI uri = URI.create("api/booking/register?id="+ bookingService.RegisterBooking(booking));
         return ResponseEntity.created(uri).build();
     }
     //отмена бронирования
-    @PutMapping(path = "/cancel")
+    @PutMapping(path = "/cancel", produces = "application/json")
     public ResponseEntity<Void> CancelBooking(@Valid @RequestBody BookingRequestDTO booking,
                               HttpServletRequest request){
         bookingService.CancelBooking(booking);
         return new ResponseEntity<>(HttpStatusCode.valueOf(204));
     }
     //редактирование брони (изменение времени записи)
-    @PutMapping(path = "/edit", produces = "application/json")
+    @PutMapping(path = "/edit/", produces = "application/json")
     public ResponseEntity<?> EditBooking(@NotNull @Min(1) @RequestParam Long id,
                                          @NotNull @Future @RequestParam  LocalDate date){
-        URI uri = URI.create("api/booking/edit?id=" + bookingService.EditBooking(id,date));
+        URI uri = URI.create("api/booking/edit?id=?id=" + bookingService.EditBooking(id,date));
         return ResponseEntity.created(uri).build();
     }
     //получение списка броней
