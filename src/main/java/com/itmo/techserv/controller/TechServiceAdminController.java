@@ -38,7 +38,7 @@ public class TechServiceAdminController {
         return ResponseEntity.created(uri).build();
     }
     //редактирование услуг(и), выбираемой по значению поля id
-    @PutMapping(path = "/edit/services}")
+    @PutMapping(path = "/edit/services")
     public ResponseEntity<?> EditService(@NotNull @Min(1) @RequestParam long id,
                                          @NotNull @RequestParam TechServiceType type,
                                          @NotNull @RequestParam String name,
