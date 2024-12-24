@@ -38,7 +38,7 @@ public class TechServiceAdminController {
         return ResponseEntity.created(uri).build();
     }
     //редактирование услуг(и), выбираемой по значению поля id
-    @PutMapping(path = "/{id};{type};{name};{description};{value};{duration}")
+    @PutMapping(path = "/edit/services}")
     public ResponseEntity<?> EditService(@NotNull @Min(1) @RequestParam long id,
                                          @NotNull @RequestParam TechServiceType type,
                                          @NotNull @RequestParam String name,
@@ -56,7 +56,7 @@ public class TechServiceAdminController {
         return techAdminService.GetAllServices();
     }
     //Получение услуги по идентификатору
-    @GetMapping(path="/{id}", produces = "application/json")
+    @GetMapping(path="/service", produces = "application/json")
     public ResponseEntity<ServiceResponseDTO> GetServicesById(@NotNull @Min(1) @RequestParam long id){
         return new ResponseEntity<>(techAdminService.GetServicesById(id), HttpStatus.OK);
     }
