@@ -9,9 +9,9 @@
 </head>
 <body>
 
-<form method="post" th:action="@{/account/registration}" th:object="${user}">
-  <input placeholder="Login" th:field="*{user.userName}">
-  <input placeholder="Password" th:field="*{user.password}">
+<form method="post" th:action="@{/account/registration}">
+  <input placeholder="Login" >
+  <input placeholder="Password">
   <input type="submit" value="Регистрация">
 </form>
 </body>

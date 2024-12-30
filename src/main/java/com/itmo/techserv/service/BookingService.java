@@ -6,11 +6,14 @@ import com.itmo.techserv.dto.ServiceResponseDTO;
 import com.itmo.techserv.dto.ValueResponseDTO;
 import com.itmo.techserv.entity.Booking;
 import com.itmo.techserv.entity.TechService;
+import com.itmo.techserv.entity.Users;
+import com.itmo.techserv.exceptions.AccountException;
 import com.itmo.techserv.exceptions.ServiceException;
 import com.itmo.techserv.mapper.BookingMapper;
 import com.itmo.techserv.mapper.TechServiceMapper;
 import com.itmo.techserv.repository.BookingRepository;
 import com.itmo.techserv.repository.ServiceRepository;
+import com.itmo.techserv.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
     private final TechServiceMapper techServiceMapper;
+    private final UserRepository userRepository;
 
     public long RegisterBooking(BookingRequestDTO bookingRequest){
         TechService techService = serviceRepository.findByName(bookingRequest.nameServ())
@@ -62,5 +66,11 @@ public class BookingService {
         List<ValueResponseDTO> list = bookingRepository.SelectValue(beginDate,endDate);
         if(list.isEmpty())  throw new ServiceException(HttpStatus.NOT_FOUND, "Данные не найдены");
         return list;
+    }
+    public long SetDiscountToUser(String login, Integer discount) {
+        Users user = userRepository.findByUserName(login)
+                .orElseThrow(()->new ServiceException(HttpStatus.NOT_FOUND,"Такого пользователя не существует"));
+        user.setDiscount(discount);
+        return user.getDiscount();
     }
 }

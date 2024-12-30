@@ -61,9 +61,10 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
 //    Booking  updateBookingById(Long id);
 
     //получение информации о выручке
-    @Query(nativeQuery = true, value =  "SELECT booking.booking_date, COUNT(techservice.value) " +
+    @Query(nativeQuery = true, value =  "SELECT booking.booking_date, COUNT(techservice.value*(100-users.discount)/100) " +
                                         "FROM booking INNER JOIN techservice " +
                                         "ON techservice.id = booking.category_id " +
+                                        "INNER JOIN users ON users.user_name = booking.login" +
                                         "WHERE booking.booking_date BETWEEN :beginDate AND :endDate " +
                                         "AND booking.cansel_sign IS NOT true" +
                                         "GROUP BY booking.booking_date " +

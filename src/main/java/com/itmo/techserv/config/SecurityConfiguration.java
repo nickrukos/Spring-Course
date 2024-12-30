@@ -1,7 +1,5 @@
 package com.itmo.techserv.config;
 import com.itmo.techserv.exceptions.AccountException;
-import com.itmo.techserv.service.JwtAuthenticationFilter;
-import com.itmo.techserv.service.JwtSecurityService;
 import com.itmo.techserv.service.UserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,11 +23,13 @@ import static jakarta.servlet.DispatcherType.FORWARD;
 @Configuration
 public class SecurityConfiguration {
     private final UserDetailService userDetailService;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    //private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfiguration(UserDetailService userDetailService, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfiguration(UserDetailService userDetailService //,
+    //                             JwtAuthenticationFilter jwtAuthenticationFilter
+    ) {
         this.userDetailService = userDetailService;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    //    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -57,6 +57,11 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/account/registration", "/account/login")
                         .not().authenticated()
+                        .requestMatchers("/api/techservice/register,", "/api/techservice/edit/services",
+                                        "api/user_profile/register_operator","api/booking/value")
+                        .hasRole("ADMINISTRATOR")
+                        .requestMatchers("api/booking/discount")
+                        .hasRole("OPERATOR")
                         .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
                         //.permitAll()
                         .anyRequest()
@@ -74,5 +79,4 @@ public class SecurityConfiguration {
                         .permitAll())  // [ВЫЙТИ] /account/logout
                 .build();
     }
-
 }

@@ -15,16 +15,16 @@ public class AccountService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtSecurityService jwtSecurityService;
+ //   private final JwtSecurityService jwtSecurityService;
     private final AuthenticationManager authenticationManager;
 
     public AccountService(UserRepository userRepository,
                           RoleRepository roleRepository,
                           PasswordEncoder passwordEncoder,
-                          JwtSecurityService jwtSecurityService,
+ //                        JwtSecurityService jwtSecurityService,
                           AuthenticationManager authenticationManager) {
         this.passwordEncoder = passwordEncoder;
-        this.jwtSecurityService = jwtSecurityService;
+ //     this.jwtSecurityService = jwtSecurityService;
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;

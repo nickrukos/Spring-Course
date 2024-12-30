@@ -67,4 +67,11 @@ public class BookingController {
                                            @NotNull @PastOrPresent @RequestParam LocalDate endDate){
         return bookingService.GetValueByDate(beginDate,endDate);
     }
+    //назначение скидки на бронь для пользователя
+    @PutMapping(path = "/discount", produces = "application/json")
+    public ResponseEntity<?> AssignDiscount(@NotNull @RequestParam String login,
+                                            @NotNull @Min(0)  @RequestParam Integer discount){
+        URI uri = URI.create("api/booking/discount?id="+ bookingService.SetDiscountToUser(login,discount));
+        return ResponseEntity.created(uri).build();
+    }
 }

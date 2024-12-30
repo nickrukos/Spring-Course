@@ -1,15 +1,13 @@
 package com.itmo.techserv.entity;
 import com.itmo.techserv.constants.UserType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
@@ -26,5 +24,7 @@ public class Users {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Roles userRole;
+    @Column(name = "discount", nullable = false, columnDefinition = "int default 0")
+    private int discount;
 }
 
