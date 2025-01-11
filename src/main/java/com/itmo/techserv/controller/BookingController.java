@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-@RequestMapping("api/booking")
+@RequestMapping("/api/booking")
 @RestController
 public class BookingController {
     private final BookingService bookingService;
@@ -34,7 +34,7 @@ public class BookingController {
     public ResponseEntity<?> RegisterBooking(@Valid @RequestBody BookingRequestDTO booking,
                                              HttpServletRequest request){
 
-        URI uri = URI.create("api/booking/register?id="+ bookingService.RegisterBooking(booking));
+        URI uri = URI.create("/api/booking/register?id="+ bookingService.RegisterBooking(booking));
         return ResponseEntity.created(uri).build();
     }
     //отмена бронирования
@@ -48,7 +48,7 @@ public class BookingController {
     @PutMapping(path = "/edit/booking", produces = "application/json")
     public ResponseEntity<?> EditBooking(@NotNull @Min(1) @RequestParam Long id,
                                          @NotNull @Future @RequestParam  LocalDate date){
-        URI uri = URI.create("api/booking/edit?id=?id=" + bookingService.EditBooking(id,date));
+        URI uri = URI.create("/api/booking/edit?id=?id=" + bookingService.EditBooking(id,date));
         return ResponseEntity.created(uri).build();
     }
     //получение списка броней
@@ -71,7 +71,7 @@ public class BookingController {
     @PutMapping(path = "/discount", produces = "application/json")
     public ResponseEntity<?> AssignDiscount(@NotNull @RequestParam String login,
                                             @NotNull @Min(0)  @RequestParam Integer discount){
-        URI uri = URI.create("api/booking/discount?id="+ bookingService.SetDiscountToUser(login,discount));
+        URI uri = URI.create("/api/booking/discount?id="+ bookingService.SetDiscountToUser(login,discount));
         return ResponseEntity.created(uri).build();
     }
 }

@@ -1,5 +1,5 @@
 package com.itmo.techserv.constants;
 
 public enum UserType {
-    USER, OPERATOR, ADMINISTRATOR
+    ROLE_USER, ROLE_OPERATOR, ROLE_ADMINISTRATOR
 }

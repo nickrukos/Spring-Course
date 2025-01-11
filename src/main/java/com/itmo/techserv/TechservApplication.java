@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories
-@EntityScan("com.itmo.techserv")
 public class TechservApplication {
 
     public static void main(String[] args) {

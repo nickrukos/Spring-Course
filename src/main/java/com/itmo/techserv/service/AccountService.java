@@ -15,16 +15,16 @@ public class AccountService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
- //   private final JwtSecurityService jwtSecurityService;
+    private final JwtSecurityService jwtSecurityService;
     private final AuthenticationManager authenticationManager;
 
     public AccountService(UserRepository userRepository,
                           RoleRepository roleRepository,
                           PasswordEncoder passwordEncoder,
- //                        JwtSecurityService jwtSecurityService,
+                          JwtSecurityService jwtSecurityService,
                           AuthenticationManager authenticationManager) {
         this.passwordEncoder = passwordEncoder;
- //     this.jwtSecurityService = jwtSecurityService;
+        this.jwtSecurityService = jwtSecurityService;
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -33,11 +33,11 @@ public class AccountService {
         if (userRepository.existsByUserName(user.getUserName())) {
             throw new AccountException("Username is already taken");
         }
-        roleRepository.findByUserType(UserType.USER)
+        roleRepository.findByUserType(UserType.ROLE_USER)
                 .ifPresentOrElse(user::setUserRole,
                         () -> {
                             Roles userRole = new Roles();
-                            userRole.setUserType(UserType.USER);
+                            userRole.setUserType(UserType.ROLE_USER);
                             user.setUserRole(userRole);
                             roleRepository.save(userRole);
                         }
