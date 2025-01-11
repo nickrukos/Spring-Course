@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-@RequestMapping("api/techservice")
+@RequestMapping("/api/techservice")
 @RestController
 public class TechServiceAdminController {
     private final TechAdminService techAdminService;
@@ -34,7 +34,7 @@ public class TechServiceAdminController {
     @PostMapping(path = "/register")
     public  ResponseEntity<?> RegisterService(@Valid @RequestBody ServiceRequestDTO serviceRequestDTO,
                                               HttpServletRequest request){
-        URI uri = URI.create("api/techservices?id="+ techAdminService.RegisterService(serviceRequestDTO));
+        URI uri = URI.create("/api/techservices?id="+ techAdminService.RegisterService(serviceRequestDTO));
         return ResponseEntity.created(uri).build();
     }
     //редактирование услуг(и), выбираемой по значению поля id
@@ -47,7 +47,7 @@ public class TechServiceAdminController {
                                          @NotNull @RequestParam int duration,
                                          HttpServletRequest request){
 
-        URI uri = URI.create("api/techservice?id=" + techAdminService.EditService(id,type,name,description, value, duration));
+        URI uri = URI.create("/api/techservice?id=" + techAdminService.EditService(id,type,name,description, value, duration));
         return ResponseEntity.created(uri).build();
     }
     //Получение всего перечня услуг

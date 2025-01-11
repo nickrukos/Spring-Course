@@ -18,14 +18,14 @@ import java.net.URI;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-@RequestMapping("api/user_profile")
+@RequestMapping("/api/user_profile")
 @RestController
 public class UserProfilesController {
     private final UserProfileService userProfileService;
     @PostMapping(path = "/register_operator")
     public ResponseEntity<?> RegisterOperator(@Valid @RequestBody UserRequestDTO userRequestDTO){
-        URI uri = URI.create("api/user_profile/register_operator?id="
-                + userProfileService.RegisterUser(userRequestDTO,"OPERATOR"));
+        URI uri = URI.create("/api/user_profile/register_operator?id="
+                + userProfileService.RegisterUser(userRequestDTO,"ROLE_OPERATOR"));
         return ResponseEntity.created(uri).build();
     }
 }

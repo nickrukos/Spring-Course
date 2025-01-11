@@ -1,13 +1,23 @@
 package com.itmo.techserv.service;
 
+import com.nimbusds.jose.JOSEException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.itmo.techserv.constants.UserType;
 import com.itmo.techserv.entity.Roles;
+import com.itmo.techserv.entity.Token;
 import com.itmo.techserv.entity.Users;
 import com.itmo.techserv.exceptions.AccountException;
+import com.itmo.techserv.exceptions.ServiceException;
 import com.itmo.techserv.repository.RoleRepository;
 import com.itmo.techserv.repository.UserRepository;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,5 +55,21 @@ public class AccountService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
+    public Token loginAccount(String userName, String password) throws AccountException, ServiceException{
+        if(!userRepository.existsByUserNameAndPassword(userName,password))
+            throw new ServiceException(HttpStatus.NOT_FOUND,"Такого пользователя не существует");
 
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(userName, password));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Token token = new Token();
+        try {
+            token.setToken(jwtSecurityService.generateToken((UserDetails) authentication.getPrincipal()));
+            token.setRefreshToken(jwtSecurityService.generateRefreshToken());
+        } catch (JOSEException e) {
+            throw new AccountException("Token cannot ne created: " + e.getMessage());
+        }
+        return token;
+    }
 }
