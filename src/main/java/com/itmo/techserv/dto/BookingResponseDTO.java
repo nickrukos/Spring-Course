@@ -11,9 +11,7 @@ public record BookingResponseDTO (
         @Min(1)
         Long id,               //идентификатор услуги
         @NotNull
-        String login,          //логин пользователя
-        @NotNull
-        String clientPhone,  //телефон пользователя
+        long idUser,          //id пользователя
         String nameServ,     //название услуги
         @NotNull
         @PastOrPresent

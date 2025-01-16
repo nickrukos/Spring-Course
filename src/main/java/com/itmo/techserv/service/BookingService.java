@@ -1,9 +1,6 @@
 package com.itmo.techserv.service;
 
-import com.itmo.techserv.dto.BookingRequestDTO;
-import com.itmo.techserv.dto.BookingResponseDTO;
-import com.itmo.techserv.dto.ServiceResponseDTO;
-import com.itmo.techserv.dto.ValueResponseDTO;
+import com.itmo.techserv.dto.*;
 import com.itmo.techserv.entity.Booking;
 import com.itmo.techserv.entity.TechService;
 import com.itmo.techserv.entity.Users;
@@ -11,6 +8,7 @@ import com.itmo.techserv.exceptions.AccountException;
 import com.itmo.techserv.exceptions.ServiceException;
 import com.itmo.techserv.mapper.BookingMapper;
 import com.itmo.techserv.mapper.TechServiceMapper;
+import com.itmo.techserv.mapper.UserMapper;
 import com.itmo.techserv.repository.BookingRepository;
 import com.itmo.techserv.repository.ServiceRepository;
 import com.itmo.techserv.repository.UserRepository;
@@ -30,6 +28,7 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
     private final TechServiceMapper techServiceMapper;
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
 
     public long RegisterBooking(BookingRequestDTO bookingRequest){
@@ -44,6 +43,14 @@ public class BookingService {
         Booking booking = bookingRepository.findById(bookingRequest.id()).get();
         if(booking == null) throw new ServiceException(HttpStatus.NOT_FOUND, "Бронирование не существует");
         booking.setCancelSign(true);
+    }
+    public UserResponseDTO CancelBookingAdmin(BookingRequestDTO bookingRequest){
+        Booking booking = bookingRepository.findById(bookingRequest.id()).get();
+        if(booking == null) throw new ServiceException(HttpStatus.NOT_FOUND, "Бронирование не существует");
+        booking.setCancelSign(true);
+        Users user = userRepository.findById(bookingRequest.idUser()).get();
+        user.setDiscount(user.getDiscount()+5);
+        return userMapper.MapToDTO(user);
     }
     public long EditBooking(long id, LocalDate date){
         Booking booking = bookingRepository.findById(id).get();

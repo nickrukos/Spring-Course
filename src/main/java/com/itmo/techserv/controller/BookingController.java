@@ -44,11 +44,17 @@ public class BookingController {
         bookingService.CancelBooking(booking);
         return new ResponseEntity<>(HttpStatusCode.valueOf(204));
     }
+    //отмена бронирования оператором или администратором
+    @PutMapping(path = "/cancel/admin", produces = "application/json")
+    public UserResponseDTO CancelBookingAdmin(@Valid @RequestBody BookingRequestDTO booking,
+                                                             HttpServletRequest request){
+        return bookingService.CancelBookingAdmin(booking);
+    }
     //редактирование брони (изменение времени записи)
-    @PutMapping(path = "/edit/booking", produces = "application/json")
+    @PutMapping(path = "/edit", produces = "application/json")
     public ResponseEntity<?> EditBooking(@NotNull @Min(1) @RequestParam Long id,
                                          @NotNull @Future @RequestParam  LocalDate date){
-        URI uri = URI.create("/api/booking/edit?id=?id=" + bookingService.EditBooking(id,date));
+        URI uri = URI.create("/api/booking/edit?id=" + bookingService.EditBooking(id,date));
         return ResponseEntity.created(uri).build();
     }
     //получение списка броней

@@ -5,6 +5,7 @@ import com.itmo.techserv.dto.BookingResponseDTO;
 import com.itmo.techserv.entity.Booking;
 import com.itmo.techserv.entity.TechService;
 import com.itmo.techserv.repository.ServiceRepository;
+import com.itmo.techserv.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,17 +14,20 @@ import org.springframework.stereotype.Service;
 public class BookingMapper {
     private final TechServiceMapper techServiceMapper;
     private final ServiceRepository serviceRepository;
+    private final UserRepository userRepository;
     @Autowired
-    public BookingMapper(TechServiceMapper techServiceMapper, ServiceRepository serviceRepository) {
+    public BookingMapper(TechServiceMapper techServiceMapper,
+                         ServiceRepository serviceRepository,
+                         UserRepository userRepository) {
         this.techServiceMapper = techServiceMapper;
         this.serviceRepository = serviceRepository;
+        this.userRepository = userRepository;
     }
 
     public Booking mapToEntity(BookingRequestDTO bookingRequestDTO){
         return  Booking.builder()
                 .id(bookingRequestDTO.id())
-                .login(bookingRequestDTO.login())
-                .clientPhone(bookingRequestDTO.clientPhone())
+                .user(userRepository.findById(bookingRequestDTO.id()).get())
                 .bookingDate(bookingRequestDTO.bookingDate())
                 .cancelSign(bookingRequestDTO.cancelSign())
                 .build();
@@ -31,8 +35,7 @@ public class BookingMapper {
     public BookingResponseDTO mapToDTO(Booking booking){
        return new BookingResponseDTO(
                booking.getId(),
-               booking.getLogin(),
-               booking.getClientPhone(),
+               booking.getUser().getId(),
                booking.getService().getName(),
                booking.getBookingDate(),
                booking.isCancelSign()

@@ -21,10 +21,9 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "login", nullable = false)
-    private String login;
-    @Column(name = "phone", nullable = false)
-    private String clientPhone;
+    @ManyToOne
+    @JoinColumn (name = "id_user", nullable = false)
+    private Users user;
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private TechService service;
