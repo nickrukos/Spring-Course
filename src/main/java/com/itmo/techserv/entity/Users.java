@@ -21,6 +21,8 @@ public class Users {
     private String userName;
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name="mail",nullable = false)
+    private String mail;
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Roles userRole;

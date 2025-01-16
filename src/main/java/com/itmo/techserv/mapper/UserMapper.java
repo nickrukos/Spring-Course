@@ -1,6 +1,7 @@
 package com.itmo.techserv.mapper;
 
 import com.itmo.techserv.dto.UserRequestDTO;
+import com.itmo.techserv.dto.UserResponseDTO;
 import com.itmo.techserv.entity.Roles;
 import com.itmo.techserv.exceptions.ServiceException;
 import com.itmo.techserv.repository.UserRoleRepository;
@@ -23,5 +24,8 @@ public class UserMapper {
                          .orElseThrow(()->new ServiceException(HttpStatus.NOT_FOUND,"Такой роли пользователя не существует"));
         user.setUserRole(userRole);
         return user;
+    }
+    public UserResponseDTO MapToDTO(Users user){
+        return  new UserResponseDTO(user.getId(), user.getUserName(), user.getMail(), user.getDiscount());
     }
 }

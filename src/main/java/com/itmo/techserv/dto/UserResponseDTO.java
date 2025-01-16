@@ -5,8 +5,12 @@ import jakarta.validation.constraints.NotNull;
 
 public record UserResponseDTO(
         @NotNull
+        long id,
+        @NotNull
         String userName,
         @NotNull
-        String password
+        String userMail,
+        @NotNull
+        int discount
 ){
 }
