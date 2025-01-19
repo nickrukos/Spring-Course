@@ -1,5 +1,6 @@
 package com.itmo.techserv.service;
 
+import com.itmo.techserv.client.NotifierClient;
 import com.itmo.techserv.dto.*;
 import com.itmo.techserv.entity.Booking;
 import com.itmo.techserv.entity.TechService;
@@ -30,6 +31,7 @@ public class BookingService {
     private final TechServiceMapper techServiceMapper;
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final NotifierClient notifierClient;
 
     public long RegisterBooking(BookingRequestDTO bookingRequest){
         TechService techService = serviceRepository.findByName(bookingRequest.nameServ())
@@ -44,19 +46,26 @@ public class BookingService {
         if(booking == null) throw new ServiceException(HttpStatus.NOT_FOUND, "Бронирование не существует");
         booking.setCancelSign(true);
     }
-    public UserResponseDTO CancelBookingAdmin(BookingRequestDTO bookingRequest){
+    public void CancelBookingByAdmin(BookingRequestDTO bookingRequest){
         Booking booking = bookingRepository.findById(bookingRequest.id()).get();
         if(booking == null) throw new ServiceException(HttpStatus.NOT_FOUND, "Бронирование не существует");
         booking.setCancelSign(true);
         Users user = userRepository.findById(bookingRequest.idUser()).get();
         user.setDiscount(user.getDiscount()+5);
-        return userMapper.MapToDTO(user);
+        booking.setCancelSign(true);
+        notifierClient.notifyCancel(userMapper.MapToDTO(user));
     }
     public long EditBooking(long id, LocalDate date){
         Booking booking = bookingRepository.findById(id).get();
         if(booking == null) throw new ServiceException(HttpStatus.NOT_FOUND, "Бронирование не существует");
         booking.setBookingDate(date);
         return booking.getId();
+    }
+    public long EditBookingByAdmin(long id, LocalDate date){
+        Booking booking = bookingRepository.findById(id).get();
+        if(booking == null) throw new ServiceException(HttpStatus.NOT_FOUND, "Бронирование не существует");
+        booking.setBookingDate(date);
+        return booking.getUser().getId();
     }
     public List<BookingResponseDTO> GetBookingsByLogin(String login)
     {

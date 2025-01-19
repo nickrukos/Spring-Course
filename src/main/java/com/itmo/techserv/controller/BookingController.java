@@ -1,6 +1,10 @@
 package com.itmo.techserv.controller;
 
+import com.itmo.techserv.constants.UserType;
 import com.itmo.techserv.dto.*;
+import com.itmo.techserv.entity.Users;
+import com.itmo.techserv.exceptions.ServiceException;
+import com.itmo.techserv.repository.UserRepository;
 import com.itmo.techserv.service.BookingService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -14,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +34,7 @@ import java.util.List;
 @RestController
 public class BookingController {
     private final BookingService bookingService;
+    private final UserRepository userRepository;
 
     //бронирование услуги (регистрация брони)
     @PostMapping(path = "/register", produces = "application/json")
@@ -37,26 +44,34 @@ public class BookingController {
         URI uri = URI.create("/api/booking/register?id="+ bookingService.RegisterBooking(booking));
         return ResponseEntity.created(uri).build();
     }
-    //отмена бронирования
+    //отмена бронирования пользователем
     @PutMapping(path = "/cancel", produces = "application/json")
     public ResponseEntity<Void> CancelBooking(@Valid @RequestBody BookingRequestDTO booking,
                               HttpServletRequest request){
-        bookingService.CancelBooking(booking);
+        String userName = request.getUserPrincipal().getName();
+        Users user = userRepository.findByUserName(userName).orElseThrow(
+                ()->new ServiceException(HttpStatus.NOT_FOUND,"Некорректный пользователь"));
+        if(user.getUserRole().getUserType() == UserType.ROLE_USER)
+            bookingService.CancelBooking(booking);
+        else bookingService.CancelBookingByAdmin(booking);
         return new ResponseEntity<>(HttpStatusCode.valueOf(204));
     }
-    //отмена бронирования оператором или администратором
-    @PutMapping(path = "/cancel/admin", produces = "application/json")
-    public UserResponseDTO CancelBookingAdmin(@Valid @RequestBody BookingRequestDTO booking,
-                                                             HttpServletRequest request){
-        return bookingService.CancelBookingAdmin(booking);
-    }
-    //редактирование брони (изменение времени записи)
+    //редактирование брони (изменение времени записи) пользователем
     @PutMapping(path = "/edit", produces = "application/json")
     public ResponseEntity<?> EditBooking(@NotNull @Min(1) @RequestParam Long id,
                                          @NotNull @Future @RequestParam  LocalDate date){
         URI uri = URI.create("/api/booking/edit?id=" + bookingService.EditBooking(id,date));
         return ResponseEntity.created(uri).build();
     }
+    //редактирование брони (изменение времени записи) администратором или оператором
+    @PutMapping(path = "/edit/admin", produces = "application/json")
+    public ResponseEntity<?> EditBookingByAdmin(@NotNull @Min(1) @RequestParam Long id,
+                                         @NotNull @Future @RequestParam  LocalDate date){
+        long idUser = bookingService.EditBookingByAdmin(id,date);
+        //URI uri = URI.create("/notifier/edit?booking="+id.toString()+"?date="+date.
+        return null;
+    }
+
     //получение списка броней
     @GetMapping(path = "/booking-list", produces = "application/json")
     public List<BookingResponseDTO> getBookingsByLogin(Principal principal){
