@@ -31,7 +31,7 @@ public class TechServiceAdminController {
     private final TechAdminService techAdminService;
 
     //Создание услуги
-    @PostMapping(path = "/register")
+    @PostMapping(path = "/register", produces = "application/json")
     public  ResponseEntity<?> RegisterService(@Valid @RequestBody ServiceRequestDTO serviceRequestDTO,
                                               HttpServletRequest request){
         URI uri = URI.create("/api/techservices?id="+ techAdminService.RegisterService(serviceRequestDTO));

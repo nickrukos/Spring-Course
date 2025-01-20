@@ -59,8 +59,15 @@ public class BookingController {
     //редактирование брони (изменение времени записи) пользователем
     @PutMapping(path = "/edit", produces = "application/json")
     public ResponseEntity<?> EditBooking(@NotNull @Min(1) @RequestParam Long id,
-                                         @NotNull @Future @RequestParam  LocalDate date){
-        URI uri = URI.create("/api/booking/edit?id=" + bookingService.EditBooking(id,date));
+                                         @NotNull @Future @RequestParam  LocalDate date,
+                                         HttpServletRequest request){
+        String uriStr = "/api/booking/edit?id=";
+        URI uri = null;
+        String userName = request.getUserPrincipal().getName();
+        Users user = userRepository.findByUserName(userName).orElseThrow(
+                ()->new ServiceException(HttpStatus.NOT_FOUND,"Некорректный пользователь"));
+        if(user.getUserRole().getUserType() == UserType.ROLE_USER)
+            uri = URI.create("/api/booking/edit?id=" + bookingService.EditBooking(id,date));
         return ResponseEntity.created(uri).build();
     }
     //редактирование брони (изменение времени записи) администратором или оператором

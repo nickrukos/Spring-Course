@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking,Long> {
@@ -71,4 +72,7 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
                                         "GROUP BY booking.booking_date " +
                                         "ORDER BY booking.booking_date")
     List<ValueResponseDTO> SelectValue(LocalDate beginDate, LocalDate endDate);
+
+    //получение брони по id
+    Optional<Booking> findById(long id);
 }

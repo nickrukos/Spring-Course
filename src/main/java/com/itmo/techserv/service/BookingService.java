@@ -65,6 +65,7 @@ public class BookingService {
         Booking booking = bookingRepository.findById(id).get();
         if(booking == null) throw new ServiceException(HttpStatus.NOT_FOUND, "Бронирование не существует");
         booking.setBookingDate(date);
+        Users user = booking.getUser();
         return booking.getUser().getId();
     }
     public List<BookingResponseDTO> GetBookingsByUser(Users user)
