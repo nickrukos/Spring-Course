@@ -74,13 +74,13 @@ public class BookingController {
 
     //получение списка броней
     @GetMapping(path = "/booking-list", produces = "application/json")
-    public List<BookingResponseDTO> getBookingsByLogin(Principal principal){
-        return bookingService.GetBookingsByLogin(principal.getName());
+    public List<BookingResponseDTO> getBookingsByUser(Users user){
+        return bookingService.GetBookingsByUser(user);
     }
     //получение списка предоставленных услуг
     @GetMapping(path = "/services-list", produces = "application/json")
-    public List<ServiceResponseDTO> GetListServices(Principal principal){
-        return bookingService.GetServicesByLogin(principal.getName());
+    public List<ServiceResponseDTO> GetListServices(Users user){
+        return bookingService.GetServicesByUser(user);
     }
     //получение сведений о выручке за временной период
     @GetMapping(path = "/value",produces = "application/json")
@@ -90,9 +90,9 @@ public class BookingController {
     }
     //назначение скидки на бронь для пользователя
     @PutMapping(path = "/discount", produces = "application/json")
-    public ResponseEntity<?> AssignDiscount(@NotNull @RequestParam String login,
+    public ResponseEntity<?> AssignDiscount(@Valid @RequestBody Users user,
                                             @NotNull @Min(0)  @RequestParam Integer discount){
-        URI uri = URI.create("/api/booking/discount?id="+ bookingService.SetDiscountToUser(login,discount));
+        URI uri = URI.create("/api/booking/discount?id="+ bookingService.SetDiscountToUser(user.getUserName(),discount));
         return ResponseEntity.created(uri).build();
     }
 }

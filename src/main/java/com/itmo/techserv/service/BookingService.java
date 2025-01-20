@@ -67,14 +67,14 @@ public class BookingService {
         booking.setBookingDate(date);
         return booking.getUser().getId();
     }
-    public List<BookingResponseDTO> GetBookingsByLogin(String login)
+    public List<BookingResponseDTO> GetBookingsByUser(Users user)
     {
-        List<Booking> list = bookingRepository.findAllByLogin(login);
+        List<Booking> list = bookingRepository.findAllByUser(user);
         if(list.isEmpty()) throw new ServiceException(HttpStatus.NOT_FOUND, "Бронирование не существует");
-        return bookingRepository.findAllByLogin(login).stream().map(bookingMapper::mapToDTO).toList();
+        return list.stream().map(bookingMapper::mapToDTO).toList();
     }
-    public List<ServiceResponseDTO> GetServicesByLogin(String login){
-        List<TechService> list = bookingRepository.findServiceByLogin(login);
+    public List<ServiceResponseDTO> GetServicesByUser(Users user){
+        List<TechService> list = bookingRepository.findServiceByUser(user);
         if(list.isEmpty())  throw new ServiceException(HttpStatus.NOT_FOUND, "Данные не найдены");
         return list.stream().map(techServiceMapper::mapToDTO).toList();
     }

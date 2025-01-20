@@ -3,6 +3,7 @@ package com.itmo.techserv.repository;
 import com.itmo.techserv.dto.ValueResponseDTO;
 import com.itmo.techserv.entity.Booking;
 import com.itmo.techserv.entity.TechService;
+import com.itmo.techserv.entity.Users;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,7 +17,7 @@ import java.util.Map;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking,Long> {
     //получение списка броней
-    List<Booking> findAllByLogin(String login);
+    List<Booking> findAllByUser(Users user);
 
     //получение списка представленных услуг
     @Query(nativeQuery = true, value = "SELECT techservice.* FROM booking INNER JOIN techservice " +
@@ -25,7 +26,7 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     List<TechService> findServices(String login);
 
     //получение списка представленных услуг
-    List<TechService> findServiceByLogin(String login);
+    List<TechService> findServiceByUser(Users user);
 
     //создание брони на услугу сервиса
     @Transactional
@@ -64,7 +65,7 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     @Query(nativeQuery = true, value =  "SELECT booking.booking_date, COUNT(techservice.value*(100-users.discount)/100) " +
                                         "FROM booking INNER JOIN techservice " +
                                         "ON techservice.id = booking.category_id " +
-                                        "INNER JOIN users ON users.user_name = booking.login" +
+                                        "INNER JOIN users ON users.id = booking.id_user" +
                                         "WHERE booking.booking_date BETWEEN :beginDate AND :endDate " +
                                         "AND booking.cansel_sign IS NOT true" +
                                         "GROUP BY booking.booking_date " +
