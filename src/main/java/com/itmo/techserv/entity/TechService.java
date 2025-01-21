@@ -30,6 +30,4 @@ public class TechService {
     private int duration;
     @Column(name = "value", nullable = false)
     private long value;
-    @OneToMany(mappedBy = "service")
-    private List<Booking> BookingsOfService = new ArrayList<>();
 }
