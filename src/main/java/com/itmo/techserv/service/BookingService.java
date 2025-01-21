@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -65,7 +66,9 @@ public class BookingService {
         Booking booking = bookingRepository.findById(id).get();
         if(booking == null) throw new ServiceException(HttpStatus.NOT_FOUND, "Бронирование не существует");
         booking.setBookingDate(date);
-        Users user = booking.getUser();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        UserResponseDTO user = userMapper.MapToDTO(booking.getUser());
+        notifierClient.notifyEdit(user,booking.getBookingDate().format(format));
         return booking.getUser().getId();
     }
     public List<BookingResponseDTO> GetBookingsByUser(Users user)

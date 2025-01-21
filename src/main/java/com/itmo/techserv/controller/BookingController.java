@@ -61,24 +61,16 @@ public class BookingController {
     public ResponseEntity<?> EditBooking(@NotNull @Min(1) @RequestParam Long id,
                                          @NotNull @Future @RequestParam  LocalDate date,
                                          HttpServletRequest request){
-        String uriStr = "/api/booking/edit?id=";
-        URI uri = null;
+        URI uri;
         String userName = request.getUserPrincipal().getName();
         Users user = userRepository.findByUserName(userName).orElseThrow(
                 ()->new ServiceException(HttpStatus.NOT_FOUND,"Некорректный пользователь"));
         if(user.getUserRole().getUserType() == UserType.ROLE_USER)
             uri = URI.create("/api/booking/edit?id=" + bookingService.EditBooking(id,date));
+        else
+            uri = URI.create("/api/booking/edit?id=" + bookingService.EditBookingByAdmin(id,date));
         return ResponseEntity.created(uri).build();
     }
-    //редактирование брони (изменение времени записи) администратором или оператором
-    @PutMapping(path = "/edit/admin", produces = "application/json")
-    public ResponseEntity<?> EditBookingByAdmin(@NotNull @Min(1) @RequestParam Long id,
-                                         @NotNull @Future @RequestParam  LocalDate date){
-        long idUser = bookingService.EditBookingByAdmin(id,date);
-        //URI uri = URI.create("/notifier/edit?booking="+id.toString()+"?date="+date.
-        return null;
-    }
-
     //получение списка броней
     @GetMapping(path = "/booking-list", produces = "application/json")
     public List<BookingResponseDTO> getBookingsByUser(Users user){
