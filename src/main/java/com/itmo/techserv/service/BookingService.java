@@ -8,6 +8,7 @@ import com.itmo.techserv.entity.Users;
 import com.itmo.techserv.exceptions.AccountException;
 import com.itmo.techserv.exceptions.ServiceException;
 import com.itmo.techserv.mapper.BookingMapper;
+import com.itmo.techserv.mapper.BookingStatMapper;
 import com.itmo.techserv.mapper.TechServiceMapper;
 import com.itmo.techserv.mapper.UserMapper;
 import com.itmo.techserv.repository.BookingRepository;
@@ -33,6 +34,7 @@ public class BookingService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final NotifierClient notifierClient;
+    private final BookingStatMapper bookingStatMapper;
 
     public long RegisterBooking(BookingRequestDTO bookingRequest){
         TechService techService = serviceRepository.findByName(bookingRequest.nameServ())
@@ -92,5 +94,10 @@ public class BookingService {
                 .orElseThrow(()->new ServiceException(HttpStatus.NOT_FOUND,"Такого пользователя не существует"));
         user.setDiscount(discount);
         return user.getDiscount();
+    }
+    //представление информации об оказанных услугах за предыдущие сутки для DWH-хранилища
+    public List<BookingStatResponseDTO> GetLastDayServices(){
+        List<Booking> bookings = bookingRepository.findByBookingDate(LocalDate.now().minusDays(1));
+        return bookings.stream().map(bookingStatMapper::mapToDTO).toList();
     }
 }

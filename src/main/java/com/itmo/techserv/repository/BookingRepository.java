@@ -75,4 +75,6 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
 
     //получение брони по id
     Optional<Booking> findById(long id);
+    //получение списка бронирования за дату
+    List <Booking> findByBookingDate(LocalDate date);
 }
