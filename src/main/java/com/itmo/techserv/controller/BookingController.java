@@ -94,4 +94,8 @@ public class BookingController {
         URI uri = URI.create("/api/booking/discount?id="+ bookingService.SetDiscountToUser(user.getUserName(),discount));
         return ResponseEntity.created(uri).build();
     }
+    @GetMapping(path = "/lastday")
+    public ResponseEntity<List<BookingStatResponseDTO>> GetLastDayServices(){
+        return new ResponseEntity<>(bookingService.GetLastDayServices(),HttpStatus.OK);
+    }
 }
