@@ -40,7 +40,7 @@ public class AccountService {
         this.roleRepository = roleRepository;
     }
     public void registration(Users user) throws AccountException {
-        if (userRepository.existsByUserName(user.getUserName())) {
+        if (userRepository.existsByUserNameSQL(user.getUserName())) {
             throw new AccountException("Username is already taken");
         }
         roleRepository.findByUserType(UserType.ROLE_USER)

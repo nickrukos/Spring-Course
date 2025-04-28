@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "techservice")
+@Table(name = "techservice", schema = "tech")
 public class TechService {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
